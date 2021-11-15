@@ -13,15 +13,28 @@ struct TaskSummarisedStepsView: View {
     
     @State var text = "Write down any tips"
     
+    @State var newStep: String = ""
+    
     
     var body: some View {
         List {
             ForEach(1..<task.steps.count, id: \.self) { index in
-                Text(self.task.steps[index])
-                    .padding()
+                Text("Step \(index)")
+                    .bold
+                    .padding
+                TextEditor(text: $task.steps[index])
                     
             }
-        }
+            Button("+") {
+                Text("Step \(task.steps.count + 1)")
+                TextField("Add a new step", text: $newStep)
+                
+            }.padding
+            Button("Save") {
+                task.steps.append(newStep)
+                
+            }.padding
+        }.navigationTitle(task.name)
     }
 }
 
